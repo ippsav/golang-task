@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestTestValidity(t *testing.T) {
 	tt := []struct {
@@ -80,6 +83,69 @@ func TestWholeStory(t *testing.T) {
 		t.Run(tc.name, func(tr *testing.T) {
 			if out, _ := wholeStory(tc.input); out != tc.story {
 				tr.Errorf("validate failed. Expected %v, got: %v", tc.story, out)
+			}
+		})
+	}
+}
+
+func TestStoryStats(t *testing.T) {
+	tt := []struct {
+		name       string
+		input      string
+		storyStats struct {
+			shortestWord      string
+			longestWord       string
+			averageWordLength float64
+			wordList          []string
+		}
+	}{
+		{
+			name:  "Should pass",
+			input: "23-ab-48-cab-41-hahaa",
+			storyStats: struct {
+				shortestWord      string
+				longestWord       string
+				averageWordLength float64
+				wordList          []string
+			}{
+				shortestWord:      "ab",
+				longestWord:       "hahaa",
+				averageWordLength: 3.3333333333333335,
+				wordList:          []string{"cab"},
+			},
+		},
+		{
+			name:  "Should pass",
+			input: "23-ab-48-caba-41-haha",
+			storyStats: struct {
+				shortestWord      string
+				longestWord       string
+				averageWordLength float64
+				wordList          []string
+			}{
+				shortestWord:      "ab",
+				longestWord:       "caba",
+				averageWordLength: 3.3333333333333335,
+				wordList:          []string{},
+			},
+		},
+	}
+	for _, tc := range tt {
+		t.Run(tc.name, func(tr *testing.T) {
+			shortestWord, longestWord, averageWordLength, wordList, _ := storyStats(tc.input)
+			storyStats := struct {
+				shortestWord      string
+				longestWord       string
+				averageWordLength float64
+				wordList          []string
+			}{
+				shortestWord,
+				longestWord,
+				averageWordLength,
+				wordList,
+			}
+			if !reflect.DeepEqual(storyStats, tc.storyStats) {
+				tr.Errorf("validate failed. Expected %v, got %v", storyStats, tc.storyStats)
 			}
 		})
 	}

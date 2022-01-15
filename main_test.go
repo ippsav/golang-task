@@ -26,7 +26,7 @@ func TestTestValidity(t *testing.T) {
 	}
 	for _, tc := range tt {
 		t.Run(tc.name, func(tr *testing.T) {
-			if out := TestValidity(tc.input); out != tc.ok {
+			if out := testValidity(tc.input); out != tc.ok {
 				tr.Errorf("validate failed. Expected %v, got: %v", tc.ok, out)
 			}
 		})
@@ -52,8 +52,34 @@ func TestAverageNumber(t *testing.T) {
 	}
 	for _, tc := range tt {
 		t.Run(tc.name, func(tr *testing.T) {
-			if out, _ := AverageNumber(tc.input); out != tc.averageNumber {
+			if out, _ := averageNumber(tc.input); out != tc.averageNumber {
 				tr.Errorf("validate failed. Expected %v, got: %v", tc.averageNumber, out)
+			}
+		})
+	}
+}
+
+func TestWholeStory(t *testing.T) {
+	tt := []struct {
+		name  string
+		input string
+		story string
+	}{
+		{
+			name:  "Should pass",
+			input: "23-ab-48-cab-41-hahaa",
+			story: "ab cab hahaa",
+		},
+		{
+			name:  "Should pass",
+			input: "11-hello-33-world",
+			story: "hello world",
+		},
+	}
+	for _, tc := range tt {
+		t.Run(tc.name, func(tr *testing.T) {
+			if out, _ := wholeStory(tc.input); out != tc.story {
+				tr.Errorf("validate failed. Expected %v, got: %v", tc.story, out)
 			}
 		})
 	}

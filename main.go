@@ -10,12 +10,12 @@ import (
 
 func main() {
 	customString := "23-ab-48-cab-41-hahaa"
-	fmt.Printf("%t\n", TestValidity(customString))
-	average, _ := AverageNumber(customString)
+	fmt.Printf("%t\n", testValidity(customString))
+	average, _ := averageNumber(customString)
 	fmt.Printf("Average number is : %f\n", average)
 	story, _ := wholeStory(customString)
 	fmt.Printf("Whole story: %s\n", story)
-	shortestWord, longestWord, averageWordLength, list, _ := StoryStats(customString)
+	shortestWord, longestWord, averageWordLength, list, _ := storyStats(customString)
 	fmt.Printf("Shortest word: %s\n", shortestWord)
 	fmt.Printf("Longest word: %s\n", longestWord)
 	fmt.Printf("Average word length: %f\n", averageWordLength)
@@ -29,7 +29,7 @@ func main() {
 		- input: string
 	Result: returns boolean if the string follows rules given in the task markdown
 */
-func TestValidity(input string) bool {
+func testValidity(input string) bool {
 	if len(input) == 0 {
 		return false
 	}
@@ -58,8 +58,8 @@ func TestValidity(input string) bool {
 	Result: returns the average number from the given string
 */
 
-func AverageNumber(input string) (float32, error) {
-	if !TestValidity(input) {
+func averageNumber(input string) (float32, error) {
+	if !testValidity(input) {
 		return -1, fmt.Errorf("the given input %s does not meet the given rules", input)
 	}
 	subStrings := strings.Split(input, "-")
@@ -76,15 +76,14 @@ func AverageNumber(input string) (float32, error) {
 
 /*
 	Estimate: 5min
-	Func: whole	// for _, story := range storyParts {
-	// }Story
+	Func: wholeStory
 	Param:
 		- input: string
 	Result: returns the average number from the given string
 */
 
 func wholeStory(input string) (string, error) {
-	if !TestValidity(input) {
+	if !testValidity(input) {
 		return "", fmt.Errorf("the given input %s does not meet the given rules", input)
 	}
 	subStrings := strings.Split(input, "-")
@@ -111,7 +110,7 @@ func wholeStory(input string) (string, error) {
   		 -the list (or empty list) of all words from the story that have the length the same as the average length rounded up and down.
 */
 
-func StoryStats(input string) (string, string, float64, []string, error) {
+func storyStats(input string) (string, string, float64, []string, error) {
 	story, err := wholeStory(input)
 	if err != nil {
 		return "", "", -1, nil, err

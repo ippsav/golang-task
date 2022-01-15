@@ -2,19 +2,24 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	customString := "23-ab-48-caba-41-haha"
+	customString := "23-ab-48-cab-41-hahaa"
 	fmt.Printf("%t\n", testValidity(customString))
 	average, _ := averageNumber(customString)
 	fmt.Printf("Average number is : %f\n", average)
 	story, _ := wholeStory(customString)
 	fmt.Printf("Whole story: %s\n", story)
-	storyStats(customString)
+	shortestWord, longestWord, averageWordLength, list, _ := storyStats(customString)
+	fmt.Printf("Shortest word: %s\n", shortestWord)
+	fmt.Printf("Longest word: %s\n", longestWord)
+	fmt.Printf("Average word length: %f\n", averageWordLength)
+	fmt.Printf("Word list: %s", list)
 }
 
 /*
@@ -106,14 +111,14 @@ func wholeStory(input string) (string, error) {
   		 -the list (or empty list) of all words from the story that have the length the same as the average length rounded up and down.
 */
 
-func storyStats(input string) (string, string, int, []string, error) {
+func storyStats(input string) (string, string, float64, []string, error) {
 	story, err := wholeStory(input)
 	if err != nil {
 		return "", "", -1, nil, err
 	}
 	storyParts := strings.Split(story, " ")
 	var shortestWord, longestWord string
-	var averageWordLength float32
+	var averageWordLength float64
 	wordsList := []string{}
 	shortestWord, longestWord = storyParts[0], storyParts[0]
 	sumWordLength := 0
@@ -124,10 +129,16 @@ func storyStats(input string) (string, string, int, []string, error) {
 			shortestWord = story
 		}
 		if len(longestWord) < wordLength {
-			longestWord = story
+			longestWord = word
+		}
+	}
+	averageWordLength = float64(sumWordLength) / float64(len(storyParts))
+	for _, word := range storyParts {
+		roundedAverage := math.Round(float64(averageWordLength))
+		if len(word) == int(roundedAverage) {
+			wordsList = append(wordsList, word)
 		}
 	}
 
-	// placeholder for return statement
-	return "", "", -1, nil, err
+	return shortestWord, longestWord, averageWordLength, wordsList, nil
 }

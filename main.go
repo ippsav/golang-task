@@ -11,7 +11,9 @@ func main() {
 	customString := "23-ab-48-caba-41-haha"
 	fmt.Printf("%t\n", testValidity(customString))
 	average, _ := averageNumber(customString)
-	fmt.Printf("%f\n", average)
+	fmt.Printf("Average number is : %f\n", average)
+	story, _ := wholeStory(customString)
+	fmt.Printf("Whole story: %s", story)
 }
 
 /*
@@ -64,4 +66,28 @@ func averageNumber(input string) (float32, error) {
 		sum += number
 	}
 	return float32(sum) / float32(len(subStrings)/2), nil
+}
+
+/*
+	Estimate: 5min
+	Func: wholeStory
+	Param:
+		- input: string
+	Result: returns the average number from the given string
+*/
+
+func wholeStory(input string) (string, error) {
+	if !testValidity(input) {
+		return "", fmt.Errorf("the given input %s does not meet the given rules", input)
+	}
+	subStrings := strings.Split(input, "-")
+	parsedStrings := []string{}
+	for _, subString := range subStrings {
+		_, err := strconv.Atoi(subString)
+		if err == nil {
+			continue
+		}
+		parsedStrings = append(parsedStrings, subString)
+	}
+	return strings.Join(parsedStrings, " "), nil
 }

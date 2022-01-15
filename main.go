@@ -13,7 +13,8 @@ func main() {
 	average, _ := averageNumber(customString)
 	fmt.Printf("Average number is : %f\n", average)
 	story, _ := wholeStory(customString)
-	fmt.Printf("Whole story: %s", story)
+	fmt.Printf("Whole story: %s\n", story)
+	storyStats(customString)
 }
 
 /*
@@ -70,7 +71,8 @@ func averageNumber(input string) (float32, error) {
 
 /*
 	Estimate: 5min
-	Func: wholeStory
+	Func: whole	// for _, story := range storyParts {
+	// }Story
 	Param:
 		- input: string
 	Result: returns the average number from the given string
@@ -90,4 +92,42 @@ func wholeStory(input string) (string, error) {
 		parsedStrings = append(parsedStrings, subString)
 	}
 	return strings.Join(parsedStrings, " "), nil
+}
+
+/*
+	Estimate: 10min
+	Func: storyStats
+	Param:
+		- input: string
+	Result:
+  		 -the shortest word
+  		 -the longest word
+  		 -the average word length
+  		 -the list (or empty list) of all words from the story that have the length the same as the average length rounded up and down.
+*/
+
+func storyStats(input string) (string, string, int, []string, error) {
+	story, err := wholeStory(input)
+	if err != nil {
+		return "", "", -1, nil, err
+	}
+	storyParts := strings.Split(story, " ")
+	var shortestWord, longestWord string
+	var averageWordLength float32
+	wordsList := []string{}
+	shortestWord, longestWord = storyParts[0], storyParts[0]
+	sumWordLength := 0
+	for _, word := range storyParts {
+		wordLength := len(word)
+		sumWordLength += wordLength
+		if len(shortestWord) > wordLength {
+			shortestWord = story
+		}
+		if len(longestWord) < wordLength {
+			longestWord = story
+		}
+	}
+
+	// placeholder for return statement
+	return "", "", -1, nil, err
 }

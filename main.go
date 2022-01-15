@@ -9,7 +9,9 @@ import (
 
 func main() {
 	customString := "23-ab-48-caba-41-haha"
-	fmt.Printf("%t", testValidity(customString))
+	fmt.Printf("%t\n", testValidity(customString))
+	average, _ := averageNumber(customString)
+	fmt.Printf("%f\n", average)
 }
 
 /*
@@ -38,4 +40,28 @@ func testValidity(input string) bool {
 		parseSwitch = !parseSwitch
 	}
 	return true
+}
+
+/*
+	Estimate: 5min
+	Func: averageNumber
+	Param:
+		- input: string
+	Result: returns the average number from the given string
+*/
+
+func averageNumber(input string) (float32, error) {
+	if !testValidity(input) {
+		return -1, fmt.Errorf("the given input %s does not meet the given rules", input)
+	}
+	subStrings := strings.Split(input, "-")
+	sum := 0
+	for _, subString := range subStrings {
+		number, err := strconv.Atoi(subString)
+		if err != nil {
+			continue
+		}
+		sum += number
+	}
+	return float32(sum) / float32(len(subStrings)/2), nil
 }

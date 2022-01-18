@@ -51,6 +51,18 @@ func testValidity(input string) bool {
 }
 
 /*
+	Estimate: 5 min
+	Func: testValidityWithRegex 
+	Param:
+		- input: string
+	Result: returns boolean if the string follows rules given in the task markdown
+*/
+func testValidityWithRegex(input string) bool {
+  pattern := regexp.MustCompile("^[0-9]+-[a-zA-Z]+(-[0-9]+-[a-zA-Z]+)*$")
+  return pattern.MatchString(input)
+}
+
+/*
 	Estimate: 5min
 	Func: averageNumber
 	Param:
